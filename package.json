@@ -4,7 +4,7 @@
   "description": "A collection of React form controls used by the main Gearworks package. Includes full TypeScript intellisense.",
   "main": "bin/index.js",
   "scripts": {
-    "barrel": "barrelsby -d controls --delete",
+    "barrel": "barrelsby -d ./controls --delete",
     "build": "tsc -p .",
     "watch": "tsc -p . --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
