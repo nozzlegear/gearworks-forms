@@ -1,0 +1,39 @@
+{
+  "name": "gearworks-forms",
+  "version": "1.0.0",
+  "description": "A collection of React form controls used by the main Gearworks package. Includes full TypeScript intellisense.",
+  "main": "bin/index.js",
+  "scripts": {
+    "barrel": "barrelsby -d controls --delete",
+    "build": "tsc -p .",
+    "watch": "tsc -p . --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nozzlegear/gearworks-forms.git"
+  },
+  "keywords": [
+    "typescript",
+    "forms",
+    "controls",
+    "input",
+    "select",
+    "gearworks"
+  ],
+  "author": "Joshua Harms <joshua@nozzlegear.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nozzlegear/gearworks-forms/issues"
+  },
+  "homepage": "https://github.com/nozzlegear/gearworks-forms#readme",
+  "peerDependencies": {
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.35",
+    "barrelsby": "^0.0.3",
+    "typescript": "^2.4.1"
+  }
+}
