@@ -18,12 +18,12 @@ export interface InputProps extends React.ClassAttributes<Input> {
     onValueChange?: (newValue: string) => void | false;
 }
 
-interface IState {
+export interface InputState {
     value: string;
 }
 
-export class Input extends React.Component<InputProps, Partial<IState>> {
-    state: IState = {
+export class Input extends React.Component<InputProps, Partial<InputState>> {
+    state: InputState = {
         value: ""
     }
 

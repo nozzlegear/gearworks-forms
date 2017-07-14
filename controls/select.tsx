@@ -1,42 +1,58 @@
 import * as React from 'react';
 
+export interface LabeledSelectOption<ValueType extends string> {
+    value: ValueType;
+    label: string;
+}
+
 export interface SelectProps<ValueType extends string> extends React.ClassAttributes<Select<ValueType>> {
     className?: string;
     style?: React.CSSProperties;
     /**
      * The control's default value.
      */
-    defaultValue: ValueType;
+    defaultValue: LabeledSelectOption<ValueType>;
     /**
      * A string array of value options.
      */
-    options: ValueType[];
+    options: LabeledSelectOption<ValueType>[];
     /**
      * An optional event handler that gets called when the value has changed. Return false to prevent the value change.
      */
-    onValueChange?: (newValue: ValueType) => void | false;
+    onValueChange?: (newSelection: LabeledSelectOption<ValueType>) => void | false;
 }
 
-interface IState<ValueType extends string> {
-    value: ValueType;
+export interface SelectState<ValueType extends string> {
+    selected: LabeledSelectOption<ValueType>;
 }
 
-export class Select<ValueType extends string> extends React.Component<SelectProps<ValueType>, Partial<IState<ValueType>>> {
+export class Select<ValueType extends string> extends React.Component<SelectProps<ValueType>, Partial<SelectState<ValueType>>> {
     constructor(props: SelectProps<ValueType>, context: any) {
         super(props, context);
 
         this.state = {
-            value: props.defaultValue
+            selected: props.defaultValue
         }
     }
 
-    state: IState<ValueType>;
+    state: SelectState<ValueType>;
+
+    private findOption(value: ValueType) {
+        const filtered = this.props.options.filter(opt => opt.value === value);
+
+        return filtered.length === 0 ? undefined : filtered[0];
+    }
 
     private onChange(e: React.FormEvent<HTMLSelectElement>) {
         const value = e.currentTarget.value as ValueType;
+        const selected = this.findOption(value);;
+
+        if (selected === undefined) {
+            return false;
+        }
 
         if (this.props.onValueChange) {
-            const result = this.props.onValueChange(value);
+            const result = this.props.onValueChange(selected);
 
             if (result === false) {
                 // Handler indicates that we should not update value.
@@ -45,27 +61,28 @@ export class Select<ValueType extends string> extends React.Component<SelectProp
             }
         }
 
-        this.setState({ value });
+        this.setState({ selected });
     }
 
     /**
      * Gets the current value.
      */
-    getValue(): string {
-        return this.state.value || this.props.defaultValue || "";
+    getValue(): LabeledSelectOption<ValueType> | undefined {
+        return this.state.selected || this.props.defaultValue || undefined;
     }
 
     render() {
         const { defaultValue, onValueChange, options, ...props } = this.props;
-        const { value, ...state } = this.state;
+        const { selected, ...state } = this.state;
+        const currentValue = this.getValue() || { label: undefined, value: undefined };
 
         return (
             <select
-                value={this.getValue()}
+                value={currentValue.value}
                 style={props.style}
                 className={props.className}
                 onChange={e => this.onChange(e)}>
-                {options.map(o => <option value={o} key={o}>{o}</option>)}
+                {options.map(o => <option value={o.value} key={o.value}>{o.label}</option>)}
             </select>
         )
     }

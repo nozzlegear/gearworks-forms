@@ -1,10 +1,14 @@
 {
   "name": "gearworks-forms",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A collection of React form controls used by the main Gearworks package. Includes full TypeScript intellisense.",
-  "main": "bin/index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "barrel": "barrelsby -d ./controls --delete",
+    "barrel": "echo 'barrelsby does not currently support exporting from *.tsx files' || barrelsby -d ./controls --delete",
     "build": "tsc -p .",
     "watch": "tsc -p . --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
